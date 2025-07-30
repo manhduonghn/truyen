@@ -1,0 +1,257 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+    position: relative;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.back-button {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+}
+
+.search-container {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.search-container form {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.search-container input[type="text"] {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 250px;
+    font-size: 1em;
+}
+
+.search-container button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+
+.search-container button:hover {
+    background-color: #0056b3;
+}
+
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Comic List - index.html & search.html */
+#comic-list, #search-results-list .comic-list { /* Áp dụng cho cả hai */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    justify-content: center;
+}
+
+.comic-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Đảm bảo tất cả các item có chiều cao bằng nhau trong grid row */
+}
+
+.comic-item:hover {
+    transform: translateY(-5px);
+}
+
+.comic-item a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Quan trọng: Link bên trong cũng phải flex để các phần tử con phân bổ chiều cao */
+    justify-content: space-between; /* Đẩy nội dung lên trên, footer xuống dưới */
+}
+
+.comic-item .image-wrapper { /* Thêm wrapper cho ảnh để kiểm soát tỷ lệ */
+    width: 100%;
+    /* Tỷ lệ 3:4 (chiều rộng:chiều cao) phổ biến cho ảnh bìa truyện */
+    padding-top: 133.33%; /* 4 / 3 * 100% = 133.33% */
+    position: relative;
+    overflow: hidden; /* Đảm bảo ảnh không tràn ra ngoài */
+}
+
+.comic-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Phủ đầy khung mà không bị méo */
+    display: block;
+}
+
+.comic-item .comic-info-text { /* Wrapper cho tên truyện và chapter */
+    padding: 10px;
+    flex-grow: 1; /* Cho phép phần này giãn nở để chiếm hết không gian còn lại */
+    display: flex; /* Dùng flex cho nội dung để căn chỉnh dễ hơn */
+    flex-direction: column;
+    justify-content: space-between; /* Đẩy tên lên trên, chapter xuống dưới */
+    min-height: 70px; /* Đảm bảo có chiều cao tối thiểu để giữ bố cục */
+}
+
+.comic-item h3 {
+    font-size: 1.1em;
+    margin: 0 0 5px; /* Điều chỉnh margin */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.comic-item p {
+    font-size: 0.9em;
+    color: #666;
+    margin: 0; /* Điều chỉnh margin */
+}
+
+/* Comic Detail - comic-detail.html */
+#comic-detail-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.comic-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.comic-info img#comic-thumb {
+    max-width: 250px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.comic-info .details {
+    flex: 1;
+    min-width: 250px;
+}
+
+.comic-info .details p {
+    margin: 5px 0;
+}
+
+.comic-description h2 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 20px;
+}
+
+.chapter-list h2 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 20px;
+}
+
+#chapters {
+    list-style: none;
+    padding: 0;
+}
+
+#chapters li {
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    margin-bottom: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+#chapters li:hover {
+    background-color: #e9e9e9;
+}
+
+#chapters li a {
+    text-decoration: none;
+    color: #007bff;
+    display: block;
+}
+
+/* Chapter Reader - chapter-reader.html */
+#chapter-images {
+    text-align: center;
+}
+
+#chapter-images img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+    vertical-align: top;
+}
+
+.loading {
+    text-align: center;
+    font-size: 1.2em;
+    color: #666;
+    margin-top: 50px;
+}
+
+.no-results {
+    text-align: center;
+    font-size: 1.1em;
+    color: #666;
+    margin-top: 30px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .comic-info {
+        flex-direction: column;
+        align-items: center;
+    }
+    .comic-info img#comic-thumb {
+        max-width: 80%;
+    }
+}
