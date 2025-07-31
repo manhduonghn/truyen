@@ -9,33 +9,56 @@ body {
 header {
     background-color: #333;
     color: #fff;
-    padding: 1rem 0;
-    text-align: center;
-    position: relative;
+    padding: 10px 20px; /* Giữ padding vừa phải */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Cho phép các thành phần xuống dòng trên màn hình nhỏ */
+    gap: 10px; /* Khoảng cách giữa các item trong header */
 }
 
-header h1 {
+header h1 { /* Đảm bảo h1 trong header của trang search không bị ảnh hưởng */
     margin: 0;
+    font-size: 1.5em;
+    flex-grow: 1; /* Cho phép tiêu đề mở rộng */
+    text-align: center; /* Căn giữa tiêu đề */
+}
+
+.home-button {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.5em;
+    font-weight: bold;
+    flex-shrink: 0; /* Ngăn nút home bị co lại */
 }
 
 .back-button {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
     color: #fff;
     text-decoration: none;
     font-size: 1.1em;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #555;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+}
+
+.back-button:hover {
+    background-color: #777;
 }
 
 .search-container {
-    margin-top: 15px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-grow: 1; /* Cho phép search container mở rộng */
+    max-width: 400px; /* Giới hạn chiều rộng tối đa của search bar */
+    justify-content: flex-end; /* Đẩy search bar sang phải trong header */
 }
 
 .search-container form {
-    display: inline-flex;
-    align-items: center;
+    display: flex;
+    width: 100%;
     gap: 5px;
 }
 
@@ -43,8 +66,8 @@ header h1 {
     padding: 8px 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    width: 250px;
-    font-size: 1em;
+    flex-grow: 1; /* Cho input mở rộng hết cỡ trong form */
+    font-size: 0.9em;
 }
 
 .search-container button {
@@ -54,8 +77,9 @@ header h1 {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 0.9em;
     transition: background-color 0.2s;
+    flex-shrink: 0; /* Ngăn nút tìm kiếm bị co lại */
 }
 
 .search-container button:hover {
@@ -63,17 +87,19 @@ header h1 {
 }
 
 main {
-    padding: 20px;
-    max-width: 1200px;
+    padding: 20px; /* Giữ padding tổng thể cho main */
+    max-width: 1200px; /* Giữ giới hạn chiều rộng cho nội dung chính */
     margin: 0 auto;
 }
 
 /* Comic List - index.html & search.html */
-#comic-list, #search-results-list .comic-list { /* Áp dụng cho cả hai */
+#comic-list, #search-results-list .comic-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 20px;
-    justify-content: center;
+    /* Dùng auto-fill thay vì auto-fit để lấp đầy hàng ngang tốt hơn khi ít item */
+    /* Và dùng minmax(160px, 1fr) để item nhỏ hơn một chút, có thể hiển thị nhiều hơn */
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
+    gap: 15px; /* Giảm khoảng cách giữa các card */
+    justify-content: center; /* Căn giữa các item */
 }
 
 .comic-item {
@@ -86,7 +112,7 @@ main {
     transition: transform 0.2s;
     display: flex;
     flex-direction: column;
-    height: 100%; /* Đảm bảo tất cả các item có chiều cao bằng nhau trong grid row */
+    height: 100%;
 }
 
 .comic-item:hover {
@@ -98,16 +124,15 @@ main {
     color: inherit;
     display: flex;
     flex-direction: column;
-    height: 100%; /* Quan trọng: Link bên trong cũng phải flex để các phần tử con phân bổ chiều cao */
-    justify-content: space-between; /* Đẩy nội dung lên trên, footer xuống dưới */
+    height: 100%;
+    justify-content: space-between;
 }
 
-.comic-item .image-wrapper { /* Thêm wrapper cho ảnh để kiểm soát tỷ lệ */
+.comic-item .image-wrapper {
     width: 100%;
-    /* Tỷ lệ 3:4 (chiều rộng:chiều cao) phổ biến cho ảnh bìa truyện */
-    padding-top: 133.33%; /* 4 / 3 * 100% = 133.33% */
+    padding-top: 133.33%; /* Tỷ lệ 3:4 cho ảnh bìa */
     position: relative;
-    overflow: hidden; /* Đảm bảo ảnh không tràn ra ngoài */
+    overflow: hidden;
 }
 
 .comic-item img {
@@ -116,22 +141,22 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Phủ đầy khung mà không bị méo */
+    object-fit: cover;
     display: block;
 }
 
-.comic-item .comic-info-text { /* Wrapper cho tên truyện và chapter */
+.comic-item .comic-info-text {
     padding: 10px;
-    flex-grow: 1; /* Cho phép phần này giãn nở để chiếm hết không gian còn lại */
-    display: flex; /* Dùng flex cho nội dung để căn chỉnh dễ hơn */
+    flex-grow: 1;
+    display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Đẩy tên lên trên, chapter xuống dưới */
-    min-height: 70px; /* Đảm bảo có chiều cao tối thiểu để giữ bố cục */
+    justify-content: space-between;
+    min-height: 70px;
 }
 
 .comic-item h3 {
     font-size: 1.1em;
-    margin: 0 0 5px; /* Điều chỉnh margin */
+    margin: 0 0 5px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -140,7 +165,7 @@ main {
 .comic-item p {
     font-size: 0.9em;
     color: #666;
-    margin: 0; /* Điều chỉnh margin */
+    margin: 0;
 }
 
 /* Comic Detail - comic-detail.html */
@@ -151,11 +176,20 @@ main {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+#comic-detail-content h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #007bff;
+    font-size: 2em;
+}
+
 .comic-info {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     margin-bottom: 20px;
+    align-items: flex-start;
 }
 
 .comic-info img#comic-thumb {
@@ -167,23 +201,45 @@ main {
 
 .comic-info .details {
     flex: 1;
-    min-width: 250px;
+    min-width: 280px;
 }
 
 .comic-info .details p {
-    margin: 5px 0;
+    margin: 8px 0;
+    font-size: 1.05em;
 }
 
-.comic-description h2 {
-    border-bottom: 1px solid #eee;
+.comic-description h2, .chapter-list h2 {
+    border-bottom: 2px solid #eee;
     padding-bottom: 10px;
-    margin-top: 20px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #333;
 }
 
-.chapter-list h2 {
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-top: 20px;
+.sort-controls {
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.sort-controls button {
+    padding: 8px 15px;
+    margin-left: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background-color 0.2s;
+}
+
+.sort-controls button:hover {
+    background-color: #0056b3;
+}
+
+.sort-controls button.active {
+    background-color: #28a745;
 }
 
 #chapters {
@@ -195,7 +251,7 @@ main {
     background-color: #f9f9f9;
     border: 1px solid #eee;
     margin-bottom: 5px;
-    padding: 10px;
+    padding: 12px 15px;
     border-radius: 5px;
     transition: background-color 0.2s;
 }
@@ -208,20 +264,91 @@ main {
     text-decoration: none;
     color: #007bff;
     display: block;
+    font-size: 1.1em;
 }
 
 /* Chapter Reader - chapter-reader.html */
+.chapter-header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.chapter-header h1 {
+    font-size: 1.4em;
+    margin: 0 auto; /* Căn giữa tiêu đề độc lập */
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 150px); /* Đảm bảo tiêu đề không đè lên nút back */
+}
+
+.chapter-header .back-button {
+    margin-right: 15px;
+}
+
+.chapter-main {
+    padding: 0;
+    max-width: none;
+    margin: 0;
+}
+
 #chapter-images {
     text-align: center;
+    background-color: #000;
+    padding: 0;
 }
 
 #chapter-images img {
     width: 100%;
-    max-width: 100%;
+    max-width: 100vw;
     height: auto;
     display: block;
-    margin: 0;
+    margin: 0 auto;
     vertical-align: top;
+    margin-bottom: 1px;
+    box-shadow: none;
+}
+
+.chapter-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    padding: 0;
+}
+
+.chapter-navigation .nav-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s;
+    flex: 1;
+    margin: 0 5px;
+}
+
+.chapter-navigation .nav-button:first-child {
+    margin-left: 0;
+}
+.chapter-navigation .nav-button:last-child {
+    margin-right: 0;
+}
+
+.chapter-navigation .nav-button:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.chapter-navigation .nav-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
 
 .loading {
@@ -244,14 +371,81 @@ footer {
     text-align: center;
     padding: 1rem 0;
     margin-top: 20px;
+    font-size: 0.9em;
 }
 
+/* Responsive Adjustments */
 @media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center; /* Căn giữa các item khi xuống dòng */
+        gap: 15px; /* Tăng khoảng cách khi xuống dòng */
+    }
+    .home-button {
+        width: 100%; /* Đảm bảo nút home chiếm hết chiều rộng */
+        text-align: center;
+        margin-bottom: 0; /* Bỏ margin-bottom */
+    }
+    .search-container {
+        width: 100%;
+        margin-left: 0;
+        justify-content: center; /* Căn giữa search bar */
+        max-width: none; /* Bỏ giới hạn max-width trên mobile để nó giãn ra */
+    }
+    .search-container input[type="text"] {
+        width: auto; /* Để input tự động co giãn trong flex */
+    }
+
     .comic-info {
         flex-direction: column;
         align-items: center;
     }
     .comic-info img#comic-thumb {
         max-width: 80%;
+    }
+    .comic-info .details {
+        min-width: unset;
+        width: 100%;
+        text-align: center;
+    }
+    .chapter-navigation {
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 20px;
+    }
+    .chapter-navigation .nav-button {
+        width: auto;
+        margin: 0;
+    }
+    .sort-controls {
+        text-align: center;
+    }
+    .sort-controls button {
+        margin: 5px;
+    }
+    .chapter-header h1 {
+        font-size: 1.2em;
+        max-width: calc(100% - 80px);
+    }
+}
+
+@media (max-width: 480px) {
+    .search-container input[type="text"] {
+        width: 100%; /* Giãn input hết cỡ trên màn hình rất nhỏ */
+    }
+    .search-container button {
+        width: auto;
+        white-space: nowrap; /* Ngăn nút xuống dòng */
+    }
+    .comic-item {
+        max-width: 140px; /* Giảm kích thước item hơn nữa trên màn hình rất nhỏ */
+        margin: 0 auto;
+    }
+    #comic-list, #search-results-list .comic-list {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); /* Giảm minmax cho màn hình nhỏ hơn */
+    }
+    .chapter-navigation .nav-button {
+        font-size: 0.9em;
+        padding: 8px 15px;
     }
 }

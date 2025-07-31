@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const img = document.createElement('img');
             img.src = `${CDN_IMAGE_DOMAIN}/uploads/comics/${comic.thumb_url}`;
             img.alt = comic.name;
+            img.loading = "lazy"; // Thêm lazy loading
             imageWrapper.appendChild(img);
 
             // Tạo wrapper cho thông tin text
@@ -40,16 +41,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const name = document.createElement('h3');
             name.textContent = comic.name;
+            comicInfoText.appendChild(name);
 
+            // Bổ sung thông tin Tên gốc, Tác giả, Chương mới nhất
+            const comicDetailsInfo = document.createElement('div');
+            comicDetailsInfo.classList.add('comic-details-info');
+
+            // Tên gốc
+            if (comic.origin_name && comic.origin_name.length > 0 && comic.origin_name[0] !== "") {
+                const originName = document.createElement('p');
+                originName.textContent = `Tên gốc: ${comic.origin_name.join(', ')}`;
+                comicDetailsInfo.appendChild(originName);
+            }
+
+            // Tác giả (Kiểm tra nếu có và không rỗng)
+            if (comic.author && comic.author.length > 0 && comic.author[0] !== "") {
+                 const author = document.createElement('p');
+                 author.textContent = `Tác giả: ${comic.author.join(', ')}`;
+                 comicDetailsInfo.appendChild(author);
+             }
+
+            // Chương mới nhất
             const latestChapter = document.createElement('p');
             if (comic.chaptersLatest && comic.chaptersLatest.length > 0) {
-                latestChapter.textContent = `Chapter: ${comic.chaptersLatest[0].chapter_name}`;
+                latestChapter.textContent = `Chương: ${comic.chaptersLatest[0].chapter_name}`;
             } else {
-                latestChapter.textContent = 'Chưa có chương nào';
+                latestChapter.textContent = 'Chưa có chương'; // Hoặc bỏ qua nếu bạn muốn ẩn hoàn toàn
             }
+            comicDetailsInfo.appendChild(latestChapter);
             
-            comicInfoText.appendChild(name);
-            comicInfoText.appendChild(latestChapter);
+            comicInfoText.appendChild(comicDetailsInfo);
 
             comicLink.appendChild(imageWrapper);
             comicLink.appendChild(comicInfoText);
